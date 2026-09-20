@@ -8,9 +8,18 @@
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Reem+Kufi:wght@500;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Reem+Kufi:wght@500;700&display=swap"></noscript>
 <title>دفتر المحل</title>
 <style>
 :root{--ink:#14231F;--muted:#5B6B65;--paper:#F1F3EE;--card:#fff;--green:#0E5A48;--green-soft:#DCEAE3;--gold:#94661A;--gold-soft:#F5ECD6;--red:#A63A3A;--red-soft:#F6E1E0;--line:#D8DED7}
+/* --green هو اللون الأساسي للتطبيق في كل الأنماط */
+[data-theme=lapis]{--ink:#14222F;--muted:#59687A;--paper:#EEF2F7;--green:#1B4F8A;--green-soft:#DCE7F3;--line:#D5DDE8}
+[data-theme=turq]{--ink:#10262A;--muted:#526B6B;--paper:#EDF4F3;--green:#0A6A6A;--green-soft:#D6ECEB;--line:#D3E0DF}
+[data-theme=maroon]{--ink:#2A1A1E;--muted:#6B5A5E;--paper:#F6F1EF;--green:#7B2436;--green-soft:#F3E1E5;--red:#C2410C;--red-soft:#FBE6DA;--line:#E3D8D5}
+[data-theme=navy]{--ink:#161B2E;--muted:#5A6079;--paper:#F1F2F6;--green:#1F2F5C;--green-soft:#DEE3F0;--gold:#8A6212;--line:#D8DBE6}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 [hidden]{display:none!important}
 html,body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Naskh Arabic","Geeza Pro","Segoe UI",Tahoma,system-ui,sans-serif;font-size:16px;line-height:1.6}
@@ -18,10 +27,11 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #E3B448;outline-offset:2px}
 #app{max-width:560px;margin:0 auto;min-height:100vh;padding-bottom:calc(150px + env(safe-area-inset-bottom))}
 
-.top{color:#fff;padding:12px 18px 18px;border-radius:0 0 22px 22px;background:var(--green) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cpath d='M24 4l5.5 10.5L40 10l-4.5 10.5L46 24l-10.5 3.5L40 38l-10.5-4.5L24 44l-5.5-10.5L8 38l4.5-10.5L2 24l10.5-3.5L8 10l10.5 4.5z' fill='none' stroke='%23ffffff' stroke-opacity='.11' stroke-width='1'/%3E%3C/svg%3E")}
-.bism{font-size:13px;opacity:.85;text-align:center}
+.top{position:relative;color:#fff;padding:12px 18px 30px;background:var(--green) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cpath d='M24 4l5.5 10.5L40 10l-4.5 10.5L46 24l-10.5 3.5L40 38l-10.5-4.5L24 44l-5.5-10.5L8 38l4.5-10.5L2 24l10.5-3.5L8 10l10.5 4.5z' fill='none' stroke='%23ffffff' stroke-opacity='.11' stroke-width='1'/%3E%3C/svg%3E")}
+.top::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:15px;background:var(--paper);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='15' viewBox='0 0 30 15'%3E%3Cpath d='M1.5 15Q1.5 5.5 15 .5Q28.5 5.5 28.5 15Z'/%3E%3C/svg%3E") repeat-x center bottom/30px 15px;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='15' viewBox='0 0 30 15'%3E%3Cpath d='M1.5 15Q1.5 5.5 15 .5Q28.5 5.5 28.5 15Z'/%3E%3C/svg%3E") repeat-x center bottom/30px 15px}
+.bism{font-family:'Amiri Quran','Amiri',serif;font-size:18px;text-align:center;opacity:.95;line-height:1.7}
 .toprow{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
-h1{font-size:24px;margin:0;font-weight:700}
+h1{font-family:'Reem Kufi','Noto Naskh Arabic',sans-serif;font-size:26px;margin:0;font-weight:700;letter-spacing:0}
 .dates{font-size:13px;opacity:.9;margin-top:2px;display:flex;gap:16px;flex-wrap:wrap}
 .iconbtn{background:rgba(255,255,255,.15);border:0;color:#fff;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;cursor:pointer}
 
@@ -61,7 +71,8 @@ h1{font-size:24px;margin:0;font-weight:700}
 .tag.gold{background:var(--gold-soft);color:var(--gold)}
 
 .panel{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:14px 16px;margin-top:12px}
-.panel h3{margin:0 0 6px;font-size:16px}
+.panel h3{font-family:'Reem Kufi','Noto Naskh Arabic',sans-serif;margin:0 0 6px;font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}
+.panel h3::before{content:'';flex:none;width:13px;height:13px;background:var(--gold);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12.0%201.0L14.5%205.9L19.8%204.2L18.1%209.5L23.0%2012.0L18.1%2014.5L19.8%2019.8L14.5%2018.1L12.0%2023.0L9.5%2018.1L4.2%2019.8L5.9%2014.5L1.0%2012.0L5.9%209.5L4.2%204.2L9.5%205.9Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12.0%201.0L14.5%205.9L19.8%204.2L18.1%209.5L23.0%2012.0L18.1%2014.5L19.8%2019.8L14.5%2018.1L12.0%2023.0L9.5%2018.1L4.2%2019.8L5.9%2014.5L1.0%2012.0L5.9%209.5L4.2%204.2L9.5%205.9Z'/%3E%3C/svg%3E") center/contain no-repeat}
 .kv{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 0;border-bottom:1px dashed var(--line)}
 .kv:last-child{border-bottom:0}
 .big{font-size:34px;font-weight:700;line-height:1.2}
@@ -69,8 +80,8 @@ h1{font-size:24px;margin:0;font-weight:700}
 .hint{font-size:13px;color:var(--muted);margin:8px 0 0}
 .zres{background:var(--gold-soft);border-color:#E4D3A6}
 .zres .big{color:var(--gold)}
-.verse{background:var(--gold-soft);border-radius:14px;padding:12px 16px;font-size:18px;text-align:center;line-height:1.9}
-.verse small{display:block;font-size:12px;color:var(--gold)}
+.verse{font-family:'Amiri Quran','Amiri',serif;background:var(--gold-soft);border-radius:14px;padding:14px 16px;font-size:21px;text-align:center;line-height:2}
+.verse small{display:block;font-family:'Noto Naskh Arabic','Segoe UI',Tahoma,system-ui,sans-serif;font-size:12px;color:var(--gold);line-height:1.4}
 .chk{display:flex;gap:10px;align-items:flex-start;padding:8px 0;cursor:pointer}
 .chk input{width:22px;height:22px;margin-top:3px;accent-color:var(--green);flex:none}
 details.panel summary{cursor:pointer}
@@ -81,6 +92,11 @@ details.panel li{margin-bottom:8px}
 .diff.bad{background:var(--red-soft);color:var(--red)}
 .sm{padding:6px 12px;font-size:14px}
 
+.swatches{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.sw{display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:0;cursor:pointer;font-size:12px;color:var(--muted)}
+.sw i{width:44px;height:44px;border-radius:50%;background:var(--c);border:3px solid #fff;box-shadow:0 0 0 2px var(--line)}
+.sw.on i{box-shadow:0 0 0 3px var(--c)}
+.sw.on{color:var(--ink);font-weight:700}
 .ov{position:fixed;inset:0;background:rgba(10,20,17,.5);display:flex;align-items:flex-end;justify-content:center;z-index:20}
 .sheet{background:var(--paper);width:100%;max-width:560px;max-height:90vh;overflow:auto;border-radius:22px 22px 0 0;padding:18px 18px calc(22px + env(safe-area-inset-bottom));animation:up .18s ease-out}
 @keyframes up{from{transform:translateY(24px);opacity:.6}to{transform:none;opacity:1}}
@@ -133,7 +149,7 @@ const MT={expense:'مصروف للمحل',advance:'سلفة أو مسحوب بإ
 
 /* ---------- الحالة والحفظ ---------- */
 const KEY='daftar-almahal-v1';
-const blank=()=>({v:2,settings:{shop:'محلي',currency:'',basis:'sell',metal:'gold',metalPrice:0,hawlStart:'',cash:0,otherDebtsIn:0,shopDebts:0,cashBase:null,watchWords:'',lastBackup:0,stocktake:null},products:[],sales:[],spoils:[],purchases:[],debts:[],moves:[],closes:[],checks:{date:'',done:{}}});
+const blank=()=>({v:2,settings:{shop:'محلي',currency:'',basis:'sell',metal:'gold',metalPrice:0,hawlStart:'',cash:0,otherDebtsIn:0,shopDebts:0,cashBase:null,theme:'emerald',watchWords:'',lastBackup:0,stocktake:null},products:[],sales:[],spoils:[],purchases:[],debts:[],moves:[],closes:[],checks:{date:'',done:{}}});
 let S=blank();
 const money=n=>fmt(n)+(S.settings.currency?' '+esc(S.settings.currency):'');
 const mt=n=>fmt(n)+(S.settings.currency?' '+S.settings.currency:'');
@@ -156,7 +172,7 @@ const Store={
 };
 let saveT;function save(){clearTimeout(saveT);saveT=setTimeout(()=>Store.save(),250)}
 
-let tab='sale',cart=[],payMethod='cash',payCust='',payDue='',paidIn='',period='today',bmode='u',buyPay='till',mvType='expense',curId='',_cb=null,pendingP=null;
+let tab='sale',cart=[],payMethod='cash',payCust='',payDue='',paidIn='',shortMode='debt',period='today',bmode='u',buyPay='till',mvType='expense',curId='',_cb=null,pendingP=null;
 const q={sale:'',inv:''};
 const prod=id=>S.products.find(p=>p.id===id);
 const debtLeft=d=>d.paid?0:r2(d.amount-sum(d.pay||[],x=>x.a));
@@ -211,10 +227,19 @@ function copyShare(){
   catch(e){try{document.execCommand('copy');toast('تم النسخ')}catch(_){}}
 }
 
+const THEMES={emerald:{n:'زمردي',c:'#0E5A48'},lapis:{n:'لازوردي',c:'#1B4F8A'},turq:{n:'فيروزي',c:'#0A6A6A'},maroon:{n:'عنابي',c:'#7B2436'},navy:{n:'كحلي',c:'#1F2F5C'}};
+function applyTheme(){
+  const k=THEMES[S.settings.theme]?S.settings.theme:'emerald';
+  document.documentElement.setAttribute('data-theme',k);
+  const m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content',THEMES[k].c);
+}
+function setTheme(k){S.settings.theme=k;save();applyTheme();openSettings()}
+
 /* ---------- الهيكل ---------- */
 const TABS=[['sale','بيع',ICON.cart],['inv','المخزون',ICON.box],['am','الأمانة',ICON.shield],['rep','التقارير',ICON.bars],['zk','الزكاة',ICON.coin]];
 function go(k){tab=k;render();window.scrollTo(0,0)}
 function render(){
+  applyTheme();
   const d=new Date();
   const views={sale:viewSale,inv:viewInv,am:viewAm,rep:viewRep,zk:viewZk};
   const att=S.products.filter(p=>flags(p).length).length;
@@ -268,20 +293,32 @@ function drawCartBar(){
 function cartLine(c,i){
   return '<div class="line"><div><b>'+esc(c.name)+'</b><span class="sub">'+fmt(c.price)+' / '+U[c.unit]+'</span></div><div class="stp"><button class="chip" aria-label="أنقص" onclick="chg('+i+',-1)">−</button><input class="in" inputmode="decimal" aria-label="الكمية" value="'+c.qty+'" onchange="setQty('+i+',this.value)"><button class="chip" aria-label="زد" onclick="chg('+i+',1)">+</button></div><div class="lt">'+fmt(c.qty*c.price)+'</div><button class="x" aria-label="حذف" onclick="rm('+i+')">×</button></div>';
 }
+function custFields(){return '<label class="f">اسم العميل</label><input class="in" value="'+esc(payCust)+'" oninput="payCust=this.value"><label class="f">موعد السداد المتفق عليه</label><input type="date" class="in" value="'+esc(payDue)+'" oninput="payDue=this.value"><p class="hint">اتفقا على السعر والموعد قبل التفرق، ولا تفرض غرامة على التأخير فهي من الربا. وتأكد أن صاحب المحل يأذن بالبيع الآجل.</p>'}
+function setShort(m){shortMode=m;showChange()}
 function showChange(){
   const el=$('#chgline');if(!el)return;
-  const p=num(paidIn),t=cartTotal();
-  el.innerHTML=paidIn.trim()===''?'':(p>=t?'الباقي للزبون: <b>'+money(p-t)+'</b>':'ينقص: <b class="neg">'+money(t-p)+'</b>');
+  const t=r2(cartTotal()),has=paidIn.trim()!=='',p=r2(num(paidIn));
+  let h='';
+  if(payMethod==='cash'){
+    if(has&&p>=t-0.004)h='<p class="hint" style="font-size:17px;color:var(--ink)">الباقي للزبون: <b>'+money(p-t)+'</b></p>';
+    else if(has){
+      h='<p class="hint" style="font-size:16px;color:var(--ink)">ينقص عن الثمن: <b class="neg">'+money(t-p)+'</b>. كيف تسجّل هذا الفرق؟</p><div class="chips"><button class="chip'+(shortMode==='debt'?' on':'')+'" onclick="setShort(\'debt\')">الباقي دين على العميل</button><button class="chip'+(shortMode==='disc'?' on':'')+'" onclick="setShort(\'disc\')">خصم بإذن صاحب المحل</button></div>';
+      h+=shortMode==='debt'?custFields():'<p class="hint">لا تُنزّل السعر إلا بإذن صاحب المحل. يُسجَّل الخصم ويظهر في تقريره.</p>';
+    }
+  }else if(has){
+    h=p>=t-0.004?'<p class="hint neg">الدفعة تغطي كامل الثمن، فاختر «نقداً».</p>':'<p class="hint" style="font-size:16px;color:var(--ink)">المتبقي دين على العميل: <b>'+money(t-p)+'</b></p>';
+  }
+  el.innerHTML=h;
 }
 function openCart(){
   if(!cart.length){closeSheet();return}
-  let pay='';
-  if(payMethod==='cash')pay='<label class="f">المبلغ المستلَم من الزبون (اختياري)</label><input class="in" inputmode="decimal" value="'+esc(paidIn)+'" oninput="paidIn=this.value;showChange()"><p class="hint" id="chgline" style="font-size:17px;color:var(--ink)"></p>';
-  else pay='<label class="f">اسم العميل</label><input id="cust" class="in" value="'+esc(payCust)+'" oninput="payCust=this.value"><label class="f">موعد السداد المتفق عليه</label><input type="date" class="in" value="'+esc(payDue)+'" oninput="payDue=this.value"><p class="hint">اتفقا على السعر والموعد قبل التفرق، ولا تفرض غرامة على التأخير فهي من الربا. وتأكد أن صاحب المحل يأذن بالبيع الآجل.</p>';
+  const pay=payMethod==='cash'
+    ?'<label class="f">المبلغ المستلَم من الزبون</label><input class="in" inputmode="decimal" placeholder="اتركه فارغاً إن استلمت كامل الثمن" value="'+esc(paidIn)+'" oninput="paidIn=this.value;showChange()"><div id="chgline"></div>'
+    :custFields()+'<label class="f">دفعة مقدّمة مستلمة الآن (اختياري)</label><input class="in" inputmode="decimal" value="'+esc(paidIn)+'" oninput="paidIn=this.value;showChange()"><div id="chgline"></div>';
   sheet('<h2>السلة</h2>'+cart.map(cartLine).join('')+'<div class="panel"><div class="kv"><span>الإجمالي</span><b style="font-size:26px">'+money(cartTotal())+'</b></div></div><label class="f">طريقة الدفع</label><div class="chips"><button class="chip'+(payMethod==='cash'?' on':'')+'" onclick="setPay(\'cash\')">نقداً</button><button class="chip'+(payMethod==='credit'?' on':'')+'" onclick="setPay(\'credit\')">آجل (دين)</button></div>'+pay+'<button class="btn block" onclick="checkout()">تم البيع</button><button class="btn ghost block" onclick="clearCart()">تفريغ السلة</button>');
   showChange();
 }
-function setPay(m){payMethod=m;openCart()}
+function setPay(m){payMethod=m;paidIn='';shortMode='debt';openCart()}
 function refreshCart(){openCart();drawCartBar();drawGrid()}
 function chg(i,dir){
   const c=cart[i],p=prod(c.pid),step=c.unit==='kg'?0.25:1,nq=r3(c.qty+dir*step);
@@ -296,20 +333,34 @@ function setQty(i,v){
   c.qty=n;refreshCart();
 }
 function rm(i){cart.splice(i,1);refreshCart()}
-function clearCart(){cart=[];paidIn='';closeSheet();drawCartBar();drawGrid()}
+function clearCart(){cart=[];paidIn='';shortMode='debt';closeSheet();drawCartBar();drawGrid()}
 function checkout(){
   if(!cart.length)return;
   for(const c of cart){const p=prod(c.pid);if(!p||c.qty>p.qty+1e-9){toast('الكمية غير متوفرة: '+c.name);return}}
+  const gross=r2(cartTotal()),has=paidIn.trim()!=='',pd=r2(num(paidIn));
+  let cashIn,debt=0,disc=0,total=gross;
+  if(payMethod==='cash'){
+    if(!has||pd>=gross-0.004)cashIn=gross;
+    else{
+      if(pd<=0){toast('اكتب المبلغ المستلَم');return}
+      cashIn=pd;
+      if(shortMode==='disc'){disc=r2(gross-pd);total=pd}else debt=r2(gross-pd);
+    }
+  }else{
+    if(has&&pd>=gross-0.004){toast('الدفعة تغطي كامل الثمن، فاختر «نقداً»');return}
+    cashIn=has?Math.max(0,pd):0;debt=r2(gross-cashIn);
+  }
   const cust=payCust.trim();
-  if(payMethod==='credit'&&!cust){toast('اكتب اسم العميل للبيع الآجل');return}
+  if(debt>0&&!cust){toast('اكتب اسم العميل لتسجيل الدين');return}
   const items=cart.map(c=>{const p=prod(c.pid);p.qty=r3(p.qty-c.qty);return{pid:p.id,name:p.name,unit:p.unit,qty:c.qty,price:p.price,cost:p.cost}});
-  const total=sum(items,i=>i.qty*i.price),cogs=sum(items,i=>i.qty*i.cost);
-  const sale={id:uid(),ts:Date.now(),items,total,cogs,method:payMethod,customer:payMethod==='credit'?cust:'',due:payMethod==='credit'?payDue:''};
+  const cogs=sum(items,i=>i.qty*i.cost);
+  const sale={id:uid(),ts:Date.now(),items,total,gross,cashIn,discount:disc,cogs,method:debt>0?'credit':'cash',customer:debt>0?cust:'',due:debt>0?payDue:''};
   S.sales.push(sale);
-  if(payMethod==='credit')S.debts.push({id:uid(),ts:sale.ts,customer:cust,amount:total,paid:false,pay:[],due:payDue,saleId:sale.id});
-  const ch=payMethod==='cash'&&paidIn.trim()!==''&&num(paidIn)>=total?' | الباقي للزبون '+money(num(paidIn)-total):'';
-  cart=[];payMethod='cash';payCust='';payDue='';paidIn='';
-  save();closeSheet();render();toast('تم البيع: '+mt(total)+ch.replace(/<[^>]*>/g,''));
+  if(debt>0)S.debts.push({id:uid(),ts:sale.ts,customer:cust,amount:debt,paid:false,pay:[],due:payDue,saleId:sale.id});
+  const chg=payMethod==='cash'&&has&&pd>gross+0.004?' | الباقي للزبون '+mt(pd-gross):'';
+  const msg=debt>0?'تم البيع: استلمت '+mt(cashIn)+' والدين '+mt(debt)+' على '+cust:(disc>0?'تم البيع بخصم '+mt(disc):'تم البيع: '+mt(total)+chg);
+  cart=[];payMethod='cash';payCust='';payDue='';paidIn='';shortMode='debt';
+  save();closeSheet();render();toast(msg);
 }
 
 /* ---------- تبويب المخزون ---------- */
@@ -434,9 +485,10 @@ function getChecks(){
   return S.checks.done;
 }
 function toggleCheck(k,v){getChecks()[k]=v;save()}
+const cashInOf=s=>s.cashIn!=null?s.cashIn:(s.method==='cash'?s.total:0);
 function cashState(){
   const b=S.settings.cashBase;if(!b)return null;
-  const sales=sum(S.sales.filter(s=>s.method==='cash'&&s.ts>b.ts),s=>s.total);
+  const sales=sum(S.sales.filter(s=>s.ts>b.ts),cashInOf);
   const coll=sum(S.debts,d=>sum((d.pay||[]).filter(p=>p.ts>b.ts),p=>p.a));
   const inn=sum(S.moves.filter(m=>m.ts>b.ts&&m.type==='in'),m=>m.amount);
   const out=sum(S.moves.filter(m=>m.ts>b.ts&&m.type!=='in'),m=>m.amount);
@@ -530,14 +582,14 @@ function rangeFrom(){
 function stats(from){
   const sales=S.sales.filter(s=>s.ts>=from),sp=S.spoils.filter(s=>s.ts>=from),mv=S.moves.filter(m=>m.ts>=from);
   const rev=sum(sales,s=>s.total),cogs=sum(sales,s=>s.cogs),loss=sum(sp,s=>s.qty*s.cost),exp=sum(mv.filter(m=>m.type==='expense'),m=>m.amount);
-  return{sales,sp,mv,rev,cogs,loss,exp,net:rev-cogs-loss-exp,cashSales:sum(sales.filter(s=>s.method==='cash'),s=>s.total),creditSales:sum(sales.filter(s=>s.method==='credit'),s=>s.total)};
+  return{sales,sp,mv,rev,cogs,loss,exp,net:rev-cogs-loss-exp,cashSales:sum(sales,cashInOf),creditSales:sum(sales,s=>s.total-cashInOf(s)),disc:sum(sales,s=>s.discount||0)};
 }
 function setPeriod(p){period=p;render()}
 function viewRep(){
   const st=stats(rangeFrom());
   const P=[['today','اليوم'],['week','7 أيام'],['month','هذا الشهر'],['all','الكل']];
   let h='<div class="pad"><div class="chips" style="margin-top:0">'+P.map(x=>'<button class="chip'+(period===x[0]?' on':'')+'" onclick="setPeriod(\''+x[0]+'\')">'+x[1]+'</button>').join('')+'</div>';
-  h+='<div class="panel"><h3>صافي الربح</h3><div class="big '+(st.net>=0?'pos':'neg')+'">'+money(st.net)+'</div><div class="kv"><span>المبيعات ('+st.sales.length+' عملية)</span><b>'+money(st.rev)+'</b></div><div class="kv"><span>تكلفة البضاعة المباعة</span><b>'+money(st.cogs)+'</b></div><div class="kv"><span>التالف والفاقد</span><b class="'+(st.loss>0?'neg':'')+'">'+money(st.loss)+'</b></div><div class="kv"><span>مصروفات المحل</span><b>'+money(st.exp)+'</b></div>'+(st.rev>0&&st.loss>0?'<p class="hint">التالف والفاقد يساوي '+fmt(st.loss/st.rev*100,1)+'% من المبيعات.</p>':'')+'</div>';
+  h+='<div class="panel"><h3>صافي الربح</h3><div class="big '+(st.net>=0?'pos':'neg')+'">'+money(st.net)+'</div><div class="kv"><span>المبيعات ('+st.sales.length+' عملية)</span><b>'+money(st.rev)+'</b></div>'+(st.disc>0?'<div class="kv"><span>منها خصومات مُنحت للزبائن</span><b>'+money(st.disc)+'</b></div>':'')+'<div class="kv"><span>تكلفة البضاعة المباعة</span><b>'+money(st.cogs)+'</b></div><div class="kv"><span>التالف والفاقد</span><b class="'+(st.loss>0?'neg':'')+'">'+money(st.loss)+'</b></div><div class="kv"><span>مصروفات المحل</span><b>'+money(st.exp)+'</b></div>'+(st.rev>0&&st.loss>0?'<p class="hint">التالف والفاقد يساوي '+fmt(st.loss/st.rev*100,1)+'% من المبيعات.</p>':'')+'</div>';
   if(st.sp.length){
     const by={};st.sp.forEach(s=>{by[s.reason]=(by[s.reason]||0)+s.qty*s.cost});
     h+='<div class="panel"><h3>التالف والفاقد حسب السبب</h3>'+Object.keys(by).map(k=>'<div class="kv"><span>'+esc(k)+'</span><b>'+money(by[k])+'</b></div>').join('')+'</div>';
@@ -547,7 +599,7 @@ function viewRep(){
   const un=openDebts(),td=todayStr();
   if(un.length)h+='<div class="panel"><h3>ديون العملاء: '+money(sum(un,debtLeft))+'</h3>'+un.map(d=>'<div class="kv"><span><b>'+esc(d.customer)+'</b><br><small style="color:var(--muted)">'+tm(d.ts)+(d.due?' | الموعد '+esc(d.due):'')+'</small>'+(d.due&&d.due<td?' <span class="tag">تأخر السداد</span>':'')+'</span><span>'+money(debtLeft(d))+' <button class="chip sm" onclick="collectSheet(\''+d.id+'\')">تحصيل</button></span></div>').join('')+'</div>';
   const rec=S.sales.slice(-8).reverse();
-  if(rec.length)h+='<div class="panel"><h3>آخر المبيعات</h3>'+rec.map(s=>'<div class="kv"><span>'+esc(s.items.slice(0,2).map(i=>i.name).join('، ')+(s.items.length>2?' …':''))+'<br><small style="color:var(--muted)">'+tm(s.ts)+(s.method==='credit'?' | آجل: '+esc(s.customer):'')+'</small></span><span><b>'+money(s.total)+'</b> <button class="x" style="font-size:16px" aria-label="إلغاء البيع" onclick="cancelSale(\''+s.id+'\')">إلغاء</button></span></div>').join('')+'</div>';
+  if(rec.length)h+='<div class="panel"><h3>آخر المبيعات</h3>'+rec.map(s=>'<div class="kv"><span>'+esc(s.items.slice(0,2).map(i=>i.name).join('، ')+(s.items.length>2?' …':''))+'<br><small style="color:var(--muted)">'+tm(s.ts)+(s.total-cashInOf(s)>0.004?' | دين: '+esc(s.customer)+' '+fmt(s.total-cashInOf(s)):'')+(s.discount>0?' | خصم '+fmt(s.discount):'')+'</small></span><span><b>'+money(s.total)+'</b> <button class="x" style="font-size:16px" aria-label="إلغاء البيع" onclick="cancelSale(\''+s.id+'\')">إلغاء</button></span></div>').join('')+'</div>';
   if(!S.sales.length&&!S.spoils.length)h+='<p class="hint" style="text-align:center;margin-top:18px">ستظهر الأرقام هنا بعد أول عملية بيع.</p>';
   return h+'</div>';
 }
@@ -578,6 +630,7 @@ function ownerReport(kind){
   L.push('');
   L.push('المبيعات: '+mt(st.rev)+' ('+st.sales.length+' عملية)');
   L.push('   نقداً: '+mt(st.cashSales)+' | آجل: '+mt(st.creditSales));
+  if(st.disc>0)L.push('   خصومات مُنحت للزبائن: '+mt(st.disc));
   L.push('تكلفة البضاعة المباعة: '+mt(st.cogs));
   L.push('التالف والفاقد: '+mt(st.loss));
   const by={};st.sp.forEach(s=>{by[s.reason]=(by[s.reason]||0)+s.qty*s.cost});
@@ -641,7 +694,7 @@ function updateZakat(){
 /* ---------- الإعدادات والنسخ الاحتياطي ---------- */
 function openSettings(){
   const lb=S.settings.lastBackup;
-  sheet('<h2>الإعدادات</h2><label class="f">اسم المحل</label><input id="st_shop" class="in" value="'+esc(S.settings.shop)+'"><label class="f">رمز العملة (مثل: ر.س، د.أ، ج.م)</label><input id="st_cur" class="in" value="'+esc(S.settings.currency)+'"><label class="f">كلمات تنبيه إضافية عند إضافة صنف (تفصلها فاصلة)</label><input id="st_w" class="in" value="'+esc(S.settings.watchWords)+'"><p class="hint">للتذكير فقط، وليست بديلاً عن سؤال أهل العلم.</p><button class="btn block" onclick="saveSettings()">حفظ</button><hr><b>نسخة احتياطية</b><p class="hint">'+(lb?'آخر نسخة: '+dt(lb)+'. ':'')+'انسخ النص واحفظه في مكان آمن، ثم الصقه هنا لاحقاً لاستعادة بياناتك.</p><textarea id="st_bk" class="in" rows="4" aria-label="النسخة الاحتياطية"></textarea><div class="two" style="margin-top:8px"><button class="btn ghost" onclick="showBackup()">إظهار النسخة</button><button class="btn ghost" onclick="restoreBackup()">استعادة</button></div><button class="btn red block" onclick="wipe()">مسح كل البيانات</button>');
+  sheet('<h2>الإعدادات</h2><label class="f">المظهر</label><div class="swatches">'+Object.keys(THEMES).map(k=>'<button class="sw'+(S.settings.theme===k?' on':'')+'" style="--c:'+THEMES[k].c+'" onclick="setTheme(\''+k+'\')" aria-label="'+THEMES[k].n+'"><i></i><span>'+THEMES[k].n+'</span></button>').join('')+'</div><label class="f">اسم المحل</label><input id="st_shop" class="in" value="'+esc(S.settings.shop)+'"><label class="f">رمز العملة (مثل: ر.س، د.أ، ج.م)</label><input id="st_cur" class="in" value="'+esc(S.settings.currency)+'"><label class="f">كلمات تنبيه إضافية عند إضافة صنف (تفصلها فاصلة)</label><input id="st_w" class="in" value="'+esc(S.settings.watchWords)+'"><p class="hint">للتذكير فقط، وليست بديلاً عن سؤال أهل العلم.</p><button class="btn block" onclick="saveSettings()">حفظ</button><hr><b>نسخة احتياطية</b><p class="hint">'+(lb?'آخر نسخة: '+dt(lb)+'. ':'')+'انسخ النص واحفظه في مكان آمن، ثم الصقه هنا لاحقاً لاستعادة بياناتك.</p><textarea id="st_bk" class="in" rows="4" aria-label="النسخة الاحتياطية"></textarea><div class="two" style="margin-top:8px"><button class="btn ghost" onclick="showBackup()">إظهار النسخة</button><button class="btn ghost" onclick="restoreBackup()">استعادة</button></div><button class="btn red block" onclick="wipe()">مسح كل البيانات</button>');
 }
 function saveSettings(){S.settings.shop=$('#st_shop').value.trim()||'محلي';S.settings.currency=$('#st_cur').value.trim();S.settings.watchWords=$('#st_w').value.trim();save();closeSheet();render()}
 function showBackup(){
