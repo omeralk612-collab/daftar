@@ -10,7 +10,7 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <title>دفتر المحل</title>
 <style>
-:root{--ink:#14231F;--muted:#5B6B65;--paper:#F1F3EE;--card:#fff;--green:#0E5A48;--green-soft:#DCEAE3;--gold:#94661A;--gold-soft:#F5ECD6;--red:#A63A3A;--red-soft:#F6E1E0;--line:#D8DED7}
+:root{--ink:#14231F;--muted:#5B6B65;--paper:#F1F3EE;--card:#fff;--green:#0E5A48;--green-soft:#DCEAE3;--gold:#94661A;--gold-soft:#F5ECD6;--red:#A63A3A;--red-soft:#F6E1E0;--line:#D8DED7;--info:#1D6E72;--info-soft:#DCEEEF}
 /* --green هو اللون الأساسي للتطبيق في كل الأنماط */
 [data-theme=lapis]{--ink:#14222F;--muted:#59687A;--paper:#EEF2F7;--green:#1B4F8A;--green-soft:#DCE7F3;--line:#D5DDE8}
 [data-theme=turq]{--ink:#10262A;--muted:#526B6B;--paper:#EDF4F3;--green:#0A6A6A;--green-soft:#D6ECEB;--line:#D3E0DF}
@@ -28,7 +28,15 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .toprow{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
 h1{font-size:24px;margin:0;font-weight:700}
 .dates{font-size:13px;opacity:.9;margin-top:2px;display:flex;gap:16px;flex-wrap:wrap}
-.iconbtn{background:rgba(255,255,255,.15);border:0;color:#fff;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;cursor:pointer}
+.iconbtn{background:rgba(255,255,255,.15);border:0;color:#fff;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;cursor:pointer}
+.icol{display:flex;flex-direction:column;gap:8px;align-items:center;flex:none}
+.rbox{border-radius:14px;padding:12px 16px;font-size:17px;text-align:center;line-height:1.85;margin-bottom:12px}
+.rbox b{display:block;font-weight:600}
+.rbox small{display:block;font-size:12px;margin-top:5px}
+.rbox.q{background:var(--gold-soft)}
+.rbox.q small{color:var(--gold)}
+.rbox.h{background:var(--info-soft)}
+.rbox.h small{color:var(--info)}
 
 .pad{padding:16px 16px 0}
 .bar{display:flex;gap:8px;align-items:center}
@@ -194,6 +202,23 @@ const ICON={
 };
 
 /* ---------- التواريخ ---------- */
+const REMINDERS=[
+  {k:'q',t:'إِنَّ اللَّهَ يَأْمُرُكُمْ أَن تُؤَدُّوا الْأَمَانَاتِ إِلَىٰ أَهْلِهَا',s:'سورة النساء: 58'},
+  {k:'q',t:'وَأَحَلَّ اللَّهُ الْبَيْعَ وَحَرَّمَ الرِّبَا',s:'سورة البقرة: 275'},
+  {k:'q',t:'يَا أَيُّهَا الَّذِينَ آمَنُوا أَوْفُوا بِالْعُقُودِ',s:'سورة المائدة: 1'},
+  {k:'q',t:'وَيْلٌ لِّلْمُطَفِّفِينَ، الَّذِينَ إِذَا اكْتَالُوا عَلَى النَّاسِ يَسْتَوْفُونَ، وَإِذَا كَالُوهُمْ أَو وَّزَنُوهُمْ يُخْسِرُونَ',s:'سورة المطففين: 1-3'},
+  {k:'q',t:'فَإِذَا قُضِيَتِ الصَّلَاةُ فَانتَشِرُوا فِي الْأَرْضِ وَابْتَغُوا مِن فَضْلِ اللَّهِ',s:'سورة الجمعة: 10'},
+  {k:'h',t:'التاجر الصدوق الأمين مع النبيين والصديقين والشهداء',s:'حديث حسن، رواه الترمذي'},
+  {k:'h',t:'البيعان بالخيار ما لم يتفرقا، فإن صدقا وبيّنا بورك لهما في بيعهما، وإن كتما وكذبا مُحقت بركة بيعهما',s:'متفق عليه'},
+  {k:'h',t:'من غشّنا فليس منا',s:'رواه مسلم'},
+  {k:'h',t:'لا يحتكر إلا خاطئ',s:'رواه مسلم'},
+  {k:'h',t:'إنما الأعمال بالنيات، وإنما لكل امرئ ما نوى',s:'متفق عليه'}
+];
+function todayReminder(){
+  const n=new Date(),start=new Date(n.getFullYear(),0,0),doy=Math.floor((n-start)/DAY);
+  return REMINDERS[doy%REMINDERS.length];
+}
+function reminderCard(rm){return '<div class="rbox '+rm.k+'"><b>«'+esc(rm.t)+'»</b><small>'+esc(rm.s)+'</small></div>'}
 function hijri(d){try{return new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-latn',{day:'numeric',month:'long',year:'numeric'}).format(d)}catch(e){return ''}}
 function greg(d){try{return d.toLocaleDateString('ar-EG-u-nu-latn',{weekday:'long',day:'numeric',month:'long'})}catch(e){return d.toDateString()}}
 const tm=ts=>new Date(ts).toLocaleString('en-GB',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
@@ -309,10 +334,10 @@ const TABS=[['sale','بيع',ICON.cart],['inv','المخزون',ICON.box],['am',
 function go(k){tab=k;render();window.scrollTo(0,0)}
 function render(){
   applyTheme();
-  const d=new Date();
+  const d=new Date(),rm=todayReminder();
   const views={sale:viewSale,inv:viewInv,am:viewAm,rep:viewRep,zk:viewZk};
   const att=S.products.filter(p=>flags(p).length).length;
-  $('#app').innerHTML='<header class="top"><div class="bism">بسم الله الرحمن الرحيم</div><div class="toprow"><h1>'+esc(S.settings.shop||'محلي')+'</h1><button class="iconbtn" aria-label="تراجع عن آخر عملية" onclick="undoLast()" style="margin-inline-end:6px">'+ICON.undo+'</button><button class="iconbtn" aria-label="الإعدادات" onclick="openSettings()">'+ICON.gear+'</button></div><div class="dates"><span>'+hijri(d)+'</span><span>'+greg(d)+'</span></div></header><main id="view">'+views[tab]()+'</main>';
+  $('#app').innerHTML='<header class="top"><div class="bism">بسم الله الرحمن الرحيم</div><div class="toprow"><h1>'+esc(S.settings.shop||'محلي')+'</h1><div class="icol"><button class="iconbtn" aria-label="الإعدادات" onclick="openSettings()">'+ICON.gear+'</button><button class="iconbtn" aria-label="تراجع عن آخر عملية" onclick="undoLast()">'+ICON.undo+'</button></div></div><div class="dates"><span>'+hijri(d)+'</span><span>'+greg(d)+'</span></div></header><main id="view">'+views[tab]()+'</main>';
   $('#nav').innerHTML=TABS.map(t=>'<button class="'+(tab===t[0]?'on':'')+'" onclick="go(\''+t[0]+'\')" aria-label="'+t[1]+'">'+t[2]+'<span>'+t[1]+'</span>'+(t[0]==='inv'&&att?'<i class="dot"></i>':'')+'</button>').join('');
   drawCartBar();
   if(tab==='sale')drawGrid();
@@ -321,7 +346,7 @@ function render(){
 }
 
 /* ---------- تبويب البيع ---------- */
-function viewSale(){return '<div class="pad"><input id="qs" class="search" placeholder="ابحث عن صنف" aria-label="بحث عن صنف" value="'+esc(q.sale)+'" oninput="q.sale=this.value;drawGrid()"><div id="grid" class="grid"></div></div>'}
+function viewSale(){return '<div class="pad">'+reminderCard(todayReminder())+'<input id="qs" class="search" placeholder="ابحث عن صنف" aria-label="بحث عن صنف" value="'+esc(q.sale)+'" oninput="q.sale=this.value;drawGrid()"><div id="grid" class="grid"></div></div>'}
 function drawGrid(){
   const el=$('#grid');if(!el)return;
   if(!S.products.length){el.innerHTML=emptyBox('لا توجد أصناف بعد','ابدأ بإضافة أصناف محلك مع أسعارها وكمياتها.','إضافة الأصناف',"go('inv')");return}
@@ -437,7 +462,7 @@ function checkout(){
 /* ---------- تبويب المخزون ---------- */
 function viewInv(){
   const v=sum(S.products,p=>p.qty*p.cost);
-  return '<div class="pad"><div class="bar"><input id="qi" class="search" placeholder="ابحث في المخزون" aria-label="بحث في المخزون" value="'+esc(q.inv)+'" oninput="q.inv=this.value;drawInv()"><button class="btn" style="white-space:nowrap" onclick="productForm()">+ صنف</button></div>'+(S.products.length?'<div class="bar" style="justify-content:space-between;margin-top:8px"><span class="hint" style="margin:0">قيمة المخزون بالتكلفة: <b>'+money(v)+'</b></span><button class="chip sm" onclick="orderList()">قائمة الطلب</button></div>':'')+'<div id="invlist" class="list"></div></div>';
+  return '<div class="pad">'+reminderCard(todayReminder())+'<div class="bar"><input id="qi" class="search" placeholder="ابحث في المخزون" aria-label="بحث في المخزون" value="'+esc(q.inv)+'" oninput="q.inv=this.value;drawInv()"><button class="btn" style="white-space:nowrap" onclick="productForm()">+ صنف</button></div>'+(S.products.length?'<div class="bar" style="justify-content:space-between;margin-top:8px"><span class="hint" style="margin:0">قيمة المخزون بالتكلفة: <b>'+money(v)+'</b></span><button class="chip sm" onclick="orderList()">قائمة الطلب</button></div>':'')+'<div id="invlist" class="list"></div></div>';
 }
 function expDays(p){if(!p.expiry)return null;return Math.ceil((new Date(p.expiry+'T23:59:59')-Date.now())/DAY)}
 function flags(p){
@@ -668,7 +693,7 @@ function setPeriod(p){period=p;render()}
 function viewRep(){
   const st=stats(rangeFrom());
   const P=[['today','اليوم'],['week','7 أيام'],['month','هذا الشهر'],['all','الكل']];
-  let h='<div class="pad"><div class="chips" style="margin-top:0">'+P.map(x=>'<button class="chip'+(period===x[0]?' on':'')+'" onclick="setPeriod(\''+x[0]+'\')">'+x[1]+'</button>').join('')+'</div>';
+  let h='<div class="pad">'+reminderCard(todayReminder())+'<div class="chips" style="margin-top:0">'+P.map(x=>'<button class="chip'+(period===x[0]?' on':'')+'" onclick="setPeriod(\''+x[0]+'\')">'+x[1]+'</button>').join('')+'</div>';
   h+='<div class="panel"><h3>صافي الربح</h3><div class="big '+(st.net>=0?'pos':'neg')+'">'+money(st.net)+'</div><div class="kv"><span>المبيعات ('+st.sales.length+' عملية)</span><b>'+money(st.rev)+'</b></div>'+(st.disc>0?'<div class="kv"><span>منها خصومات مُنحت للزبائن</span><b>'+money(st.disc)+'</b></div>':'')+'<div class="kv"><span>تكلفة البضاعة المباعة</span><b>'+money(st.cogs)+'</b></div><div class="kv"><span>التالف والفاقد</span><b class="'+(st.loss>0?'neg':'')+'">'+money(st.loss)+'</b></div><div class="kv"><span>مصروفات المحل</span><b>'+money(st.exp)+'</b></div>'+(st.rev>0&&st.loss>0?'<p class="hint">التالف والفاقد يساوي '+fmt(st.loss/st.rev*100,1)+'% من المبيعات.</p>':'')+'</div>';
   if(st.sp.length){
     const by={};st.sp.forEach(s=>{by[s.reason]=(by[s.reason]||0)+s.qty*s.cost});
@@ -748,7 +773,7 @@ function zchip(k,v){S.settings[k]=v;save();render()}
 function viewZk(){
   const s=S.settings;
   const inp=(k,l,h)=>'<label class="f">'+l+'</label><input class="in" inputmode="decimal" value="'+(s[k]||'')+'" oninput="zset(\''+k+'\',this.value)">'+(h?'<p class="hint">'+h+'</p>':'');
-  return '<div class="pad"><div class="panel"><h3>النصاب</h3><div class="chips" style="margin-top:0"><button class="chip'+(s.metal==='gold'?' on':'')+'" onclick="zchip(\'metal\',\'gold\')">بالذهب (85 غراماً)</button><button class="chip'+(s.metal==='silver'?' on':'')+'" onclick="zchip(\'metal\',\'silver\')">بالفضة (595 غراماً)</button></div>'+inp('metalPrice','سعر غرام '+(s.metal==='gold'?'الذهب':'الفضة')+' اليوم بعملتك','خذ السعر من أي مصدر موثوق. النصاب بالفضة أقل، وهو أحوط للفقراء عند كثير من أهل العلم.')+'<div class="kv" id="znis" style="margin-top:8px"></div></div>'
+  return '<div class="pad">'+reminderCard(todayReminder())+'<div class="panel"><h3>النصاب</h3><div class="chips" style="margin-top:0"><button class="chip'+(s.metal==='gold'?' on':'')+'" onclick="zchip(\'metal\',\'gold\')">بالذهب (85 غراماً)</button><button class="chip'+(s.metal==='silver'?' on':'')+'" onclick="zchip(\'metal\',\'silver\')">بالفضة (595 غراماً)</button></div>'+inp('metalPrice','سعر غرام '+(s.metal==='gold'?'الذهب':'الفضة')+' اليوم بعملتك','خذ السعر من أي مصدر موثوق. النصاب بالفضة أقل، وهو أحوط للفقراء عند كثير من أهل العلم.')+'<div class="kv" id="znis" style="margin-top:8px"></div></div>'
   +'<div class="panel"><h3>الحول</h3><label class="f">تاريخ بلوغ مالك النصاب (بداية الحول)</label><input type="date" class="in" value="'+esc(s.hawlStart)+'" oninput="zset(\'hawlStart\',this.value)"><p class="hint" id="zhawl"></p></div>'
   +'<div class="panel"><h3>الأموال الزكوية</h3><label class="f">تقويم البضاعة</label><div class="chips" style="margin-top:0"><button class="chip'+(s.basis==='sell'?' on':'')+'" onclick="zchip(\'basis\',\'sell\')">بسعر البيع</button><button class="chip'+(s.basis==='cost'?' on':'')+'" onclick="zchip(\'basis\',\'cost\')">بسعر التكلفة</button></div><p class="hint">الأقرب أن تُقوَّم عروض التجارة بسعر السوق يوم الحول. قيمة البضاعة المسجلة: <b id="zstock"></b></p>'+inp('cash','النقد في الصندوق والبنك','')+inp('otherDebtsIn','ديون أخرى للمحل مرجوّة السداد (اختياري)','ديون العملاء الآجلة المسجّلة في التطبيق تُضاف تلقائياً.')+inp('shopDebts','ديون حالّة على المحل (موردون وغيرهم)','يخصمها كثير من العلماء المعاصرين من الوعاء، والمسألة محل اجتهاد.')+'</div>'
   +'<div class="panel zres" id="zres"></div><p class="hint" style="padding-bottom:8px">الزكاة على مالك المحل، وهذا الحساب يساعدك في تجهيز الأرقام له. وهو استرشادي، فالأسلم عرضه على عالم أو جهة فتوى موثوقة في بلدك. والله أعلم.</p></div>';
